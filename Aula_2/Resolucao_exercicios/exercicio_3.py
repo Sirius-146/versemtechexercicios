@@ -5,4 +5,4 @@ num2 = float(input('Insira o segundo número: ')) #Pede outro número ao usuári
 
 soma_valores = num1 + num2 #Soma os valores inseridos pelo usuário
 
-print(f'A soma dos números é: {sum}') #Exibe o resultado ao usuário
+print(f'A soma dos números é: {soma_valores}') #Exibe o resultado ao usuário
