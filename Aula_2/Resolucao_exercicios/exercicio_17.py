@@ -1,23 +1,48 @@
 # Exercício 17:
 
-area_pintar = float(input('Insira a área a ser pintada: ')) #Recebe o valor da área de pintura
+#Função que calcula a quantidade de latas e o valor
+def calcular_latas(total_tinta, tamanho_lata, preco_lata):
+  qtd_latas = 0
+  while total_tinta > 0:
+    qtd_latas += 1
+    total_tinta -= tamanho_lata
+  total = preco_lata * qtd_latas
+  return qtd_latas, total
 
-l_por_m = area_pintar / 6 #Calcula a quantidade de litros por metro
-lata_grande = 18 #Tamanho da lata
-preco_lata_grande = 80 #Preço da lata
-lata_pequena = 3.6 #Tamanho da lata
-preco_lata_pequena = 25 #Preço da lata
+area_pintar = float(input('Insira a área a ser pintada: '))
 
-#O valor é acrescido em 1 para mantê-lo inteiro, visto que não é possível comprar 3/4 de lata, por exemplo
-qtd_de_lata = l_por_m // lata_grande + 1 #Calcula a quantidade de latas
-total_lata_grande = preco_lata_grande * qtd_de_lata #Calcula o valor final
+#Constantes do código:
+DILUICAO = 6 #Metros por litro
+LATA_GRANDE = 18 #Litros
+PRECO_LATA_GRANDE = 80
+LATA_PEQUENA = 3.6 #Litros
+PRECO_LATA_PEQUENA = 25
 
-#O valor é acrescido em 1 para mantê-lo inteiro, visto que não é possível comprar 3/4 de lata, por exemplo
-qtd_de_latas = l_por_m // lata_pequena + 1 #Calcula a quantidade de latas
-total_lata_pequena = preco_lata_pequena * qtd_de_latas #Calcula o valor final
+#Calcular o total de tinta misturada acrescido em 10%
+tinta_diluida = area_pintar / DILUICAO
+total_tinta = tinta_diluida + (tinta_diluida * 0.10)
 
-#Exibe ao usuário a quantidade de latas grandes ou pequenas e o valor final a ser pago em cada escolha
-print(f'''Quantidade de latas grandes: {int(qtd_de_lata)} \nValor a pagar R${total_lata_grande}
-Quantidade de latas pequenas: {int(qtd_de_latas)} \nValor a pagar R${total_lata_pequena}''')
+qtd_lata_grande, total_lata_grande = calcular_latas(total_tinta, LATA_GRANDE, PRECO_LATA_GRANDE)
+qtd_lata_pequena, total_lata_pequena = calcular_latas(total_tinta, LATA_PEQUENA, PRECO_LATA_PEQUENA)
 
-#Ainda há pontos a serem implementados, por exemplo a otimização de latas grandes e pequenas
+print(f'''Latas grandes: {qtd_lata_grande}\t Valor R${total_lata_grande}
+Latas pequenas: {qtd_lata_pequena}\t Valor R${total_lata_pequena}''')
+
+qtd_grande = 0
+qtd_pequena = 0
+
+#Calcula a mistura de latas grandes e pequenas
+while total_tinta > 0:
+  if total_tinta > LATA_GRANDE:
+    qtd_grande += 1
+    total_tinta -= LATA_GRANDE
+  else:
+    qtd_pequena += 1
+    total_tinta -= LATA_PEQUENA
+
+total_grande = qtd_grande * PRECO_LATA_GRANDE
+total_pequena = qtd_pequena * PRECO_LATA_PEQUENA
+total = total_grande + total_pequena
+#Se misturar latas grandes e pequenas for o melhor caso, exibe ao usuário 
+if total < total_lata_grande:
+  print(f'Melhor opção: \n{qtd_grande} latas grandes e {qtd_pequena} latas pequenas \nValor: R${total}')
